@@ -1,3 +1,6 @@
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+
 namespace DugunApp
 {
     public class Program
@@ -20,6 +23,18 @@ namespace DugunApp
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            // Serve files from project-root /uploads as /uploads/* if folder exists
+            var uploadsPath = Path.Combine(builder.Environment.ContentRootPath, "uploads");
+            if (Directory.Exists(uploadsPath))
+            {
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider(uploadsPath),
+                    RequestPath = "/uploads"
+                });
+            }
             app.UseRouting();
 
             app.UseAuthorization();

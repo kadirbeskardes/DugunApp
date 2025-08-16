@@ -1,0 +1,134 @@
+@model DugunApp.Models.OrderViewModel
+@{
+    ViewData["Title"] = "Sipariş Ver";
+}
+
+<!-- Order - Minimal Checkout -->
+<section class="order-section checkout-page">
+	<div class="container">
+		<div class="checkout">
+			<div class="checkout-card">
+				<div class="checkout-header">
+					<div class="package-meta">
+						<h1 class="package-title">DugunApp Premium</h1>
+						<p class="package-subtitle">Tek paket, net fiyat. Kurulum birkaç dakikada tamamlanır.</p>
+					</div>
+					<div class="price-badge">
+						<span class="currency">₺</span>
+						<span class="amount">299</span>
+						<span class="per">/düğün</span>
+					</div>
+				</div>
+
+				<div class="package-quick">
+					<div class="pill">
+						<span class="pill-icon">
+							<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M3 11H5V13H3V11ZM7 11H9V13H7V11ZM11 11H13V13H11V11ZM15 11H17V13H15V11ZM19 11H21V13H19V11Z" fill="currentColor"/>
+								<path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
+							</svg>
+						</span>
+						<span>QR Kod</span>
+					</div>
+					<div class="pill">
+						<span class="pill-icon">
+							<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 11.99H19C18.47 16.11 15.72 19.78 12 20.93V12H5V6.3L12 2.19V11.99Z" fill="currentColor"/>
+							</svg>
+						</span>
+						<span>Sınırsız Anı</span>
+					</div>
+					<div class="pill">
+						<span class="pill-icon">
+							<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M19 3H5C3.89 3 3 3.89 3 5V19C3 20.11 3.89 21 5 21H19C20.11 21 21 20.11 21 19V5C21 3.89 20.11 3 19 3ZM19 19H5V5H19V19Z" fill="currentColor"/>
+								<path d="M7 7H17V9H7V7ZM7 11H17V13H7V11ZM7 15H14V17H7V15Z" fill="currentColor"/>
+							</svg>
+						</span>
+						<span>Kolay Yönetim</span>
+					</div>
+				</div>
+
+				<form asp-action="Order" method="post" id="orderForm" class="checkout-form">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+					<div class="fields-grid">
+						<div class="field full">
+							<label asp-for="WeddingName" class="field-label">Düğün Adı</label>
+							<input asp-for="WeddingName" class="field-input" placeholder="Örn: Ahmet & Ayşe Düğünü" />
+							<span asp-validation-for="WeddingName" class="field-error"></span>
+						</div>
+
+						<div class="field">
+							<label asp-for="WeddingDate" class="field-label">Düğün Tarihi</label>
+							<input asp-for="WeddingDate" class="field-input" type="date" />
+							<span asp-validation-for="WeddingDate" class="field-error"></span>
+						</div>
+						<div class="field">
+							<label asp-for="WeddingLocation" class="field-label">Düğün Yeri</label>
+							<input asp-for="WeddingLocation" class="field-input" placeholder="Örn: Hilton Otel, İstanbul" />
+							<span asp-validation-for="WeddingLocation" class="field-error"></span>
+						</div>
+
+						<div class="field">
+							<label asp-for="Email" class="field-label">E-posta</label>
+							<input asp-for="Email" class="field-input" type="email" placeholder="ornek@email.com" />
+							<span asp-validation-for="Email" class="field-error"></span>
+						</div>
+						<div class="field">
+							<label asp-for="Phone" class="field-label">Telefon</label>
+							<input asp-for="Phone" class="field-input" placeholder="+90 5XX XXX XX XX" />
+							<span asp-validation-for="Phone" class="field-error"></span>
+						</div>
+
+						<div class="field full">
+							<label asp-for="Notes" class="field-label">Özel İstekler (Opsiyonel)</label>
+							<textarea asp-for="Notes" class="field-textarea" rows="4" placeholder="Özel istekleriniz varsa buraya yazabilirsiniz..."></textarea>
+							<span asp-validation-for="Notes" class="field-error"></span>
+						</div>
+					</div>
+
+					<label class="agree">
+						<input asp-for="Terms" />
+						<span class="agree-text">
+							<a href="/Home/Privacy" target="_blank">Gizlilik Politikası</a> ve 
+							<a href="#" target="_blank">Kullanım Şartları</a>'nı kabul ediyorum
+						</span>
+					</label>
+					<span asp-validation-for="Terms" class="field-error"></span>
+
+					<div class="submit-row">
+						<button type="submit" class="btn btn-primary btn-xl submit-btn">Siparişi Tamamla</button>
+						<div class="inline-price">
+							<span class="currency">₺</span><span class="amount">299</span>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const form = document.getElementById('orderForm');
+			const btn = document.querySelector('.submit-btn');
+			form.addEventListener('submit', function() {
+				btn.textContent = 'İşleniyor...';
+				btn.disabled = true;
+			});
+
+			const dateInput = document.getElementById('WeddingDate');
+			if (dateInput && !dateInput.value) {
+				const today = new Date();
+				const minDate = new Date(today);
+				minDate.setDate(today.getDate() + 1);
+				dateInput.min = minDate.toISOString().split('T')[0];
+			}
+		});
+	</script>
+}
+
+
